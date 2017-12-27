@@ -11,6 +11,8 @@ include: "*.dashboard"
 #   max_cache_age: "24 hours"
 # }
 
+#philips test here.
+
 
 explore: events {
   join: users {
