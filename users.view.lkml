@@ -1,8 +1,21 @@
 view: users {
   sql_table_name: demo_db.users ;;
 
+  parameter: label_param_string {
+    type: string
+  }
+
+  parameter: unquoted {
+    type: unquoted
+    allowed_value: {
+      label: "c"
+      value: "Sale Price"
+    }
+  }
+
   dimension: id {
     primary_key: yes
+    label: "{% parameter label_param_string %}"
     type: number
     sql: ${TABLE}.id ;;
   }

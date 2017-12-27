@@ -74,6 +74,8 @@ explore: user_data {
   }
 }
 
-explore: users {}
+explore: users_schema {
+  from: users
+}
 
 explore: users_nn {}
