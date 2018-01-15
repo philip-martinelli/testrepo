@@ -15,7 +15,7 @@ view: users {
 
   dimension: id {
     primary_key: yes
-    label: "{% parameter label_param_string %}"
+    #label: "{% parameter label_param_string %}"
     type: number
     sql: ${TABLE}.id ;;
   }

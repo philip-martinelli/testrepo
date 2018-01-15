@@ -32,6 +32,17 @@ view: orders {
     sql: ${TABLE}.user_id ;;
   }
 
+  dimension: cohort_by_activity {
+    type: string
+    sql:  concat('D',abs(DATEDIFF(${users.created_date}, ${created_date}))) ;;
+
+  }
+
+  measure: percent_of_prev {
+    type: percent_of_previous
+    sql: ${count} ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [id, users.last_name, users.first_name, users.id, order_items.count]
