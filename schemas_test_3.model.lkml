@@ -11,9 +11,6 @@ include: "*.dashboard"
 #   max_cache_age: "24 hours"
 # }
 
-#commit A
-
-
 ### testing
 #philips test here.
 ###
