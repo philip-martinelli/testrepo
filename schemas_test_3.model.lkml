@@ -13,7 +13,6 @@ include: "*.dashboard"
 
 #commit A
 #commit B
-#commit C
 
 ### testing
 #philips test here.
