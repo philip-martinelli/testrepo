@@ -10,21 +10,6 @@ include: "*.dashboard"
 #   max_cache_age: "24 hours"
 # }
 
-#quinn and philip test
-
-
-### testing
-#philips test here.
-###
-#test here
-#commit h
-#commit e
-
-###
-#testing testing testing
-######
-#blah blah
-
 
 explore: events {
   join: users {
