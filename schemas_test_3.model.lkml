@@ -1,5 +1,5 @@
 connection: "thelook"
-
+#making some changes to the remote
 # include all the views
 include: "*.view"
 
