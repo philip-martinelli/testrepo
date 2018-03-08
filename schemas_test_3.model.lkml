@@ -15,6 +15,7 @@ include: "*.dashboard"
 # }
 
 #sm
+#pm
 
 
 explore: events {
