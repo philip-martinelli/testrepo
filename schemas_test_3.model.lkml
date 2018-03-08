@@ -14,6 +14,7 @@ include: "*.dashboard"
 #   max_cache_age: "24 hours"
 # }
 
+#yaaarrrr
 
 
 explore: events {
