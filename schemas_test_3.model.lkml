@@ -1,5 +1,8 @@
 connection: "thelook"
 
+#making a change to the remote only!!!!
+#
+
 # include all the views
 include: "*.view"
 
@@ -10,6 +13,12 @@ include: "*.dashboard"
 #   sql_trigger: SELECT max(created_at) FROM demo_db.users ;;
 #   max_cache_age: "24 hours"
 # }
+
+#sm
+#pm
+#dev test
+
+#how much wood could a wood chuck chuck
 
 
 explore: events {
