@@ -14,7 +14,7 @@ include: "*.dashboard"
 #   max_cache_age: "24 hours"
 # }
 
-#sm#######hhhhhh
+#sm#####
 #pm
 #dev test
 ######
