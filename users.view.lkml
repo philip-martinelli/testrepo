@@ -73,6 +73,15 @@ view: users {
   dimension: state {
     type: string
     sql: ${TABLE}.state ;;
+    html:
+    {% if users.count._value > 400 %}
+    <p style="color: black; background-color: lightblue; font-size:100%; text-align:center">{{ rendered_value }}</p>
+    {% elsif users.count._value > 200 %}
+    <p style="color: black; background-color: lightgreen; font-size:100%; text-align:center">{{ rendered_value }}</p>
+    {% else %}
+    <p style="color: black; background-color: orange; font-size:100%; text-align:center">{{ rendered_value }}</p>
+    {% endif %}
+    ;;
   }
 
   dimension: zip {
@@ -83,6 +92,15 @@ view: users {
   measure: count {
     type: count
     drill_fields: [detail*]
+    html:
+    {% if value > 400 %}
+    <p style="color: black; background-color: lightblue; font-size:100%; text-align:center">{{ rendered_value }}</p>
+    {% elsif value > 200 %}
+    <p style="color: black; background-color: lightgreen; font-size:100%; text-align:center">{{ rendered_value }}</p>
+    {% else %}
+    <p style="color: black; background-color: orange; font-size:100%; text-align:center">{{ rendered_value }}</p>
+    {% endif %}
+    ;;
   }
 
   # ----- Sets of fields for drilling ------

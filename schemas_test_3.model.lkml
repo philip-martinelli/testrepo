@@ -1,5 +1,8 @@
 connection: "thelook"
 
+#making a change to the remote only!!!!
+
+
 # include all the views
 include: "*.view"
 
@@ -11,16 +14,7 @@ include: "*.dashboard"
 #   max_cache_age: "24 hours"
 # }
 
-### testing########
-#philips test here.
-###
-#test here
-#commit h
-#commit e
 
-###
-
-######
 
 explore: events {
   join: users {
