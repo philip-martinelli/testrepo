@@ -13,6 +13,40 @@ view: users {
     }
   }
 
+  parameter: date_picker {
+    type: unquoted
+    allowed_value: {
+      label: "Day"
+      value: "Day"
+    }
+    allowed_value: {
+      label: "Week"
+      value: "Week"
+    }
+    allowed_value: {
+      label: "Month"
+      value: "Month"
+    }
+  }
+
+  dimension: date_picker_dim {
+    type: string
+    sql: '{% parameter date_picker %}' ;;
+  }
+
+  dimension: date_picker_dim_formatted {
+    type: string
+    sql:
+    {% if users.date_picker_dim._value == "Month" %}
+'yar'
+       {% users.date_picker_dim._value == 'Week' %}
+'yaar'
+{% elsif users.date_picker_dim._value == 'Day' %}
+'yaaar'
+{% endif %}
+      ;;
+  }
+
   dimension: id {
     primary_key: yes
     #label: "{% parameter label_param_string %}"
@@ -48,6 +82,16 @@ view: users {
       year
     ]
     sql: ${TABLE}.created_at ;;
+  }
+
+  dimension: account_creation_timeframe {
+    type: string
+    sql:
+        case when '{% parameter date_picker %}' = 'Day' then ${created_date}
+              when '{% parameter date_picker %}' = 'Month' then ${created_month}
+              when '{% parameter date_picker %}' = 'Week' then ${created_week}
+              end
+    ;;
   }
 
   dimension: email {
