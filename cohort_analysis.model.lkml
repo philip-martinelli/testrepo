@@ -8,19 +8,16 @@ explore: users {
     filters: {
       field: users.date_picker
       value: "Week"
-
     }
   }
   join: orders {
     sql_on: ${orders.user_id} = ${users.id} ;;
     relationship : one_to_many
   }
-
   join: order_items {
     sql_on: ${order_items.order_id} = ${orders.id} ;;
     relationship : one_to_many
   }
-
   join: user_cohort_size {
     sql_on: ${users.account_creation_timeframe}=${user_cohort_size.created_timeframe} ;;
 #     sql_on:

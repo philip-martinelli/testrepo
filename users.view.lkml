@@ -134,17 +134,27 @@ view: users {
   }
 
   measure: count {
-    type: count
+    type: count_distinct
+    sql: ${id} ;;
     drill_fields: [detail*]
-    html:
-    {% if value > 400 %}
-    <p style="color: black; background-color: lightblue; font-size:100%; text-align:center">{{ rendered_value }}</p>
-    {% elsif value > 200 %}
-    <p style="color: black; background-color: lightgreen; font-size:100%; text-align:center">{{ rendered_value }}</p>
-    {% else %}
-    <p style="color: black; background-color: orange; font-size:100%; text-align:center">{{ rendered_value }}</p>
-    {% endif %}
-    ;;
+#     html:
+#     {% if value > 400 %}
+#     <p style="color: black; background-color: lightblue; font-size:100%; text-align:center">{{ rendered_value }}</p>
+#     {% elsif value > 200 %}
+#     <p style="color: black; background-color: lightgreen; font-size:100%; text-align:center">{{ rendered_value }}</p>
+#     {% else %}
+#     <p style="color: black; background-color: orange; font-size:100%; text-align:center">{{ rendered_value }}</p>
+#     {% endif %}
+#     ;;
+  }
+
+  measure: count_filtered {
+    type: count_distinct
+    sql: ${id} ;;
+    filters: {
+      field: orders.yn
+      value: "yes"
+    }
   }
 
   # ----- Sets of fields for drilling ------

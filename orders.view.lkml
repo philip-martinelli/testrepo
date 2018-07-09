@@ -153,17 +153,12 @@ view: orders {
     type: count
     drill_fields: [id, users.last_name, users.first_name, users.id, order_items.count]
   }
-  measure: total_distinctusers {
-    type: sum_distinct
-    sql: ${user_id} ;;
-  }
 
   dimension: yn {
     type: yesno
-    sql: ${time_interval_since_account_creation} =
-    {% assign var=_filters['users.date_picker'] %}
-    {% if var == "Month" %}
-      select CASE
+    sql:
+   ( case when {% condition users.date_picker %} 'Month' {% endcondition %} then
+   ( ${time_interval_since_account_creation} = (select CASE
         WHEN (FLOOR((DATEDIFF(orders.created_at, users.created_at))/(30))) < 1  THEN ' Less than 1'
         WHEN (FLOOR((DATEDIFF(orders.created_at, users.created_at))/(30))) < 3  THEN '  1-2'
         WHEN (FLOOR((DATEDIFF(orders.created_at, users.created_at))/(30))) < 6 THEN '   3-5'
@@ -173,13 +168,13 @@ view: orders {
         END
       from orders o
       join users u
-      on .id = .user_id
+      on u.id = o.user_id
       where
       o.user_id = ${orders.user_id}
       and o.id = ${orders.id}
-      and DATE_FORMAT(CONVERT_TZ(u.created_at,'UTC','America/Los_Angeles'),'%Y-%m') = ${user_cohort_size.created_timeframe} limit 1)
-    {% elsif var == 'Week' %}
-      select CASE
+      and DATE_FORMAT(CONVERT_TZ(u.created_at,'UTC','America/Los_Angeles'),'%Y-%m') = ${user_cohort_size.created_timeframe} limit 1))
+   when {% condition users.date_picker %} 'Week' {% endcondition %} then
+       (  ${time_interval_since_account_creation} = (select CASE
         WHEN (FLOOR((DATEDIFF(orders.created_at, users.created_at))/(7))) < 4  THEN ' Less than 4'
         WHEN (FLOOR((DATEDIFF(orders.created_at, users.created_at))/(7))) < 8  THEN '  4-7'
         WHEN (FLOOR((DATEDIFF(orders.created_at, users.created_at))/(7))) < 12 THEN '   7-11'
@@ -187,13 +182,13 @@ view: orders {
         END
       from orders o
       join users u
-      on .id = .user_id
+      on u.id = o.user_id
       where
       o.user_id = ${orders.user_id}
       and o.id = ${orders.id}
-      and DATE(CONVERT_TZ(u.created_at ,'UTC','America/Los_Angeles')) = ${user_cohort_size.created_timeframe} limit 1)
-    {% elsif var == 'Day' %}
-      (select CASE
+      and DATE_FORMAT(TIMESTAMP(DATE(DATE_ADD(CONVERT_TZ(u.created_at ,'UTC','America/Los_Angeles'),INTERVAL (0 - MOD((DAYOFWEEK(CONVERT_TZ(u.created_at ,'UTC','America/Los_Angeles')) - 1) - 1 + 7, 7)) day))), '%Y-%m-%d') = ${user_cohort_size.created_timeframe} limit 1))
+  when {% condition users.date_picker %} 'Day' {% endcondition %}  then
+  (${time_interval_since_account_creation} = (select CASE
         WHEN (DATEDIFF(o.created_at, u.created_at)) < 8  THEN ' 7 or Less'
         WHEN (DATEDIFF(o.created_at, u.created_at)) < 15  THEN '  8-14'
         WHEN (DATEDIFF(o.created_at, u.created_at)) < 29 THEN '   15-28'
@@ -202,12 +197,16 @@ view: orders {
         END
       from orders o
       join users u
-      on .id = .user_id
+      on u.id = o.user_id
       where
       o.user_id = ${orders.user_id}
       and o.id = ${orders.id}
-      and DATE(CONVERT_TZ(u.created_at ,'UTC','America/Los_Angeles')) = ${user_cohort_size.created_timeframe} limit 1)
-    {% endif %}
+      and DATE(CONVERT_TZ(u.created_at ,'UTC','America/Los_Angeles')) = ${user_cohort_size.created_timeframe} limit 1))
+      end )
     ;;
+  }
+  measure: user_count {
+    type: count_distinct
+    sql: ${user_id} ;;
   }
 }
