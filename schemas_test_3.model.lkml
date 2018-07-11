@@ -43,6 +43,10 @@ explore: inventory_items {
 }
 
 explore: users {
+  access_filter: {
+    field: state
+    user_attribute: state
+  }
   join: orders {
     type: left_outer
     sql_on: ${users.id} = ${orders.user_id} ;;
