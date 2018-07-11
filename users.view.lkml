@@ -168,4 +168,42 @@ view: users {
       user_data.count
     ]
   }
+
+
+
+
+
+
+
+
+  # test
+
+  filter: timeframe_filter {
+    type: date
+  }
+
+
+  dimension:  in_time_frame {
+    type: yesno
+    sql: {% condition timeframe_filter %} ${orders.created_raw} {% endcondition %}   ;;
+  }
+
+  dimension:  in_time_frame_jeans {
+    type: yesno
+    sql: {% condition timeframe_filter %} ${orders.created_raw} {% endcondition %} and ${products.category} = 'Jeans'  ;;
+  }
+
+  dimension:  in_time_frame_socks {
+    type: yesno
+    sql: {% condition timeframe_filter %} ${orders.created_raw} {% endcondition %} and ${products.category} = 'Socks'  ;;
+  }
+
+  measure: count_of_yes_in_timeframe {
+    type: count
+    filters: {
+      field: in_time_frame
+      value: "yes"
+    }
+  }
+
 }
